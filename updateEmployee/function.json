@@ -1,0 +1,37 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "methods": [
+        "put"
+      ],
+      "route": "records/{id}"
+    },
+    {
+      "name": "$return",
+      "type": "http",
+      "direction": "out"
+    },
+    {
+      "type": "cosmosDB",
+      "name": "employeeDocument",
+      "databaseName": "recorddb",
+      "collectionName": "records",
+      "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
+      "direction": "in"
+    },
+    {
+      "type": "cosmosDB",
+      "name": "outputDocument",
+      "databaseName": "recorddb",
+      "collectionName": "records",
+      "createIfNotExists": false,
+      "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

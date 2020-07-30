@@ -1,0 +1,28 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "methods": [
+        "delete"
+      ],
+      "route": "records/{id}/{employeeId}"
+    },
+    {
+      "name": "$return",
+      "type": "http",
+      "direction": "out"
+    },
+    {
+      "type": "cosmosDB",
+      "name": "employeeDocument",
+      "databaseName": "recorddb",
+      "collectionName": "records",
+      "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
+      "direction": "in"
+    }
+  ],
+  "disabled": false
+}
