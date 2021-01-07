@@ -18,7 +18,7 @@
     {
       "type": "cosmosDB",
       "name": "employeeDocument",
-      "databaseName": "recorddb",
+      "databaseName": "{cosmosdb-databaseName}",
       "collectionName": "records",
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "in"
