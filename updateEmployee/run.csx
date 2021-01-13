@@ -12,13 +12,13 @@ using System.Configuration;
 
 public class Employee
 {  
-  public string employeeId { get; set; }
+  //public string employeeId { get; set; }
   public string name { get; set; }
   public string dept { get; set; }
   public string mobileno { get; set; }
 }
 
-public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string Id )
+public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string employeeId )
 
 {
 
@@ -41,7 +41,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == employeeId)
         .AsEnumerable().FirstOrDefault();
   
   if (document == null)
