@@ -23,7 +23,8 @@ public class Employee
   public string dept { get; set; }
   public string mobileno { get; set; }
 }
-public static async Task<IActionResult> Run(  HttpRequest req, IEnumerable<Employee> employeeDocument, ILogger log, string Id ){
+//public static async Task<IActionResult> Run(  HttpRequest req, IEnumerable<Employee> employeeDocument, ILogger log, string Id ){
+public static async Task<IActionResult> Run(  HttpRequest req, ILogger log, string Id ){
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
 string collectionString = "COLLECTIONNAME";
 string databaseString = "DBNAME";
@@ -43,18 +44,22 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
 
-  var employees = (List<Employee>) employeeDocument;
+ // var employees = (List<Employee>) employeeDocument;
 
-  foreach (Employee obj in employees){
-    //log.LogInformation(obj.Description);
-    log.LogInformation(obj.employeeId);
+  // foreach (Employee obj in employees){
+  //   log.LogInformation(obj.employeeId);
 
+// SQL querying allows dynamic property access
+var query = new SqlQuerySpec(
+    "SELECT * FROM books b WHERE b.title = @title", 
+    new SqlParameterCollection(new SqlParameter[] { new SqlParameter { Name = "@title", Value = "War and Peace" }}));
 
+dynamic document = client.CreateDocumentQuery<dynamic>(collectionLink, query).AsEnumerable().FirstOrDefault();
 
  //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
  //var empdocument = (List<Employee>) employeeDocument;
  //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == obj.employeeId)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
         .AsEnumerable().FirstOrDefault();
   if (document == null)
   {
@@ -67,8 +72,4 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   
   await client.ReplaceDocumentAsync(document);
   return (ActionResult)new OkObjectResult(document);
-    // return null;
-
-  }
-  return new NotFoundResult();
 }
