@@ -17,10 +17,6 @@ public class Employee
   public string dept { get; set; }
   public string mobileno { get; set; }
 }
-public static async Task<IActionResult> Run(HttpRequest req, IEnumerable<Employee> employeeDocument, ILogger log)
-{
-  var employees = (List<Employee>) employeeDocument;
-
 public static async Task<IActionResult> Run(  HttpRequest req ,IEnumerable<Employee> employeeDocument, ILogger log, string id ){
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
 string collectionString = "COLLECTIONNAME";
