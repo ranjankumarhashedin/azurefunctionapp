@@ -42,24 +42,24 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   foreach (Employee obj in employees){
     //log.LogInformation(obj.Description);
     log.LogInformation(obj.employeeId);
-}
+
 
 
  // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
  // var empdocument = (List<Employee>) employeeDocument;
 //  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
-        .AsEnumerable().FirstOrDefault();
-  if (document == null)
-  {
-    return new NotFoundResult();
-  }
+  // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == obj.employeeId)
+  //       .AsEnumerable().FirstOrDefault();
+  // if (document == null)
+  // {
+  //   return new NotFoundResult();
+  // }
 
-  document.SetPropertyValue("name", updated.name); 
-  document.SetPropertyValue("dept", updated.dept);
-  document.SetPropertyValue("mobileno", updated.mobileno);
+  // document.SetPropertyValue("name", updated.name); 
+  // document.SetPropertyValue("dept", updated.dept);
+  // document.SetPropertyValue("mobileno", updated.mobileno);
   
-  await client.ReplaceDocumentAsync(document);
-  return (ActionResult)new OkObjectResult(document);
-
+  // await client.ReplaceDocumentAsync(document);
+  // return (ActionResult)new OkObjectResult(document);
+  }
 }
