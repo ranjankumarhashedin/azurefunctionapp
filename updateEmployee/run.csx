@@ -41,7 +41,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
 
   foreach (Employee obj in employees){
     //log.LogInformation(obj.Description);
-    log.LogInformation(obj.Id);
+    log.LogInformation(obj.employeeId);
 }
 
 
