@@ -45,23 +45,24 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
 
 
 
- // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
- // var empdocument = (List<Employee>) employeeDocument;
-//  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
-  // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == obj.employeeId)
-  //       .AsEnumerable().FirstOrDefault();
-  // if (document == null)
-  // {
-  //   return new NotFoundResult();
-  // }
+ //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
+ //var empdocument = (List<Employee>) employeeDocument;
+ //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == obj.employeeId)
+        .AsEnumerable().FirstOrDefault();
+  if (document == null)
+  {
+    return new NotFoundResult();
+  }
 
-  // document.SetPropertyValue("name", updated.name); 
-  // document.SetPropertyValue("dept", updated.dept);
-  // document.SetPropertyValue("mobileno", updated.mobileno);
+  document.SetPropertyValue("name", updated.name); 
+  document.SetPropertyValue("dept", updated.dept);
+  document.SetPropertyValue("mobileno", updated.mobileno);
   
-  // await client.ReplaceDocumentAsync(document);
-  // return (ActionResult)new OkObjectResult(document);
-    return null;
+  await client.ReplaceDocumentAsync(document);
+  return (ActionResult)new OkObjectResult(document);
+    // return null;
 
   }
+  return new NotFoundResult()
 }
