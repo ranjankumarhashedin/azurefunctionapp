@@ -8,7 +8,7 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Microsoft.Azure.Documents.Client;
 
-public static async Task<IActionResult> Run(  HttpRequest req, string Id ,string employeeId )
+public static async Task<IActionResult> Run(  HttpRequest req ,string employeeId )
 {
 
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
@@ -25,7 +25,7 @@ DocumentClient client = new DocumentClient(new Uri(uri),accesskey);
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == employeeId)
         .AsEnumerable().FirstOrDefault();
   
   if (document == null)
