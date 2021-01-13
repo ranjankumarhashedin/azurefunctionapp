@@ -37,19 +37,19 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
-  //var document = client.CreateDocumentQuery<dynamic>(collectionUri, option).Where(t => t.employeeId == employeeId).AsEnumerable().FirstOrDefault();
+ // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
+  var document = client.CreateDocumentQuery<dynamic>(collectionUri, option).Where(t => t.employeeId == "7").AsEnumerable().FirstOrDefault();
   var empdocument = (List<Employee>) employeeDocument;
-  if (empdocument == null)
+  if (document == null)
   {
     return new NotFoundResult();
   }
 
-  empdocument.SetPropertyValue("name", updated.name); 
-  empdocument.SetPropertyValue("dept", updated.dept);
-  empdocument.SetPropertyValue("mobileno", updated.mobileno);
+  document.SetPropertyValue("name", updated.name); 
+  document.SetPropertyValue("dept", updated.dept);
+  document.SetPropertyValue("mobileno", updated.mobileno);
   
-  await client.ReplaceDocumentAsync(empdocument);
-  return (ActionResult)new OkObjectResult(empdocument);
+  await client.ReplaceDocumentAsync(document);
+  return (ActionResult)new OkObjectResult(document);
 
 }
