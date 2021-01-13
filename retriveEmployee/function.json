@@ -22,7 +22,7 @@
       "collectionName": "records",
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "in",
-      "sqlQuery": "select  * from c where c.id={id}"
+      "sqlQuery": "select  * from c where c.employeeId={id}"
     }
   ],
   "disabled": false
