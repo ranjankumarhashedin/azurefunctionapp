@@ -38,8 +38,9 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
  // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == "7").AsEnumerable().FirstOrDefault();
   var empdocument = (List<Employee>) employeeDocument;
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
+
   if (document == null)
   {
     return new NotFoundResult();
