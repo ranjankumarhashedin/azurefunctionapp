@@ -23,10 +23,13 @@ public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, str
 {
 
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
-string collectionName = "records";
-string databaseName = "recorddb";
+string collectionString = "COLLECTIONNAME";
+string databaseString = "DBNAME";
 
 string endpoint = Environment.GetEnvironmentVariable(connectionString);
+string collectionName = Environment.GetEnvironmentVariable(collectionString);
+string databaseName = Environment.GetEnvironmentVariable(databaseString);
+
 log.LogInformation(endpoint);
 string uri = endpoint.Substring(endpoint.IndexOf("https://"),endpoint.IndexOf("443/") - endpoint.IndexOf("https://") + 4);  
 string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove(endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Length - 1, 1); 

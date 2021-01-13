@@ -18,16 +18,16 @@
     {
       "type": "cosmosDB",
       "name": "employeeDocument",
-      "databaseName": "{cosmosdb-databaseName}",
-      "collectionName": "records",
+      "databaseName": "DBNAME",
+      "collectionName": "COLLECTIONNAME",
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "in"
     },
     {
       "type": "cosmosDB",
       "name": "outputDocument",
-      "databaseName": "recorddb",
-      "collectionName": "records",
+      "databaseName": "DBNAME",
+      "collectionName": "COLLECTIONNAME",
       "createIfNotExists": false,
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "out"
