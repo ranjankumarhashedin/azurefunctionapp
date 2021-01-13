@@ -18,10 +18,7 @@ public class Employee
   public string mobileno { get; set; }
 }
 
-public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string employeeId )
-
-{
-
+public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string id ){
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
 string collectionString = "COLLECTIONNAME";
 string databaseString = "DBNAME";
@@ -41,9 +38,9 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == employeeId)
-        .AsEnumerable().FirstOrDefault();
-  
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
+  //var document = client.CreateDocumentQuery<dynamic>(collectionUri, option).Where(t => t.employeeId == employeeId).AsEnumerable().FirstOrDefault();
+
   if (document == null)
   {
     return new NotFoundResult();
