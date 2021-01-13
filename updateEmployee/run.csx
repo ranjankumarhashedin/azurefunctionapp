@@ -17,7 +17,7 @@ public class Employee
   public string dept { get; set; }
   public string mobileno { get; set; }
 }
-public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string id ){
+public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string Id ){
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
 string collectionString = "COLLECTIONNAME";
 string databaseString = "DBNAME";
@@ -40,7 +40,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
  // var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
  // var empdocument = (List<Employee>) employeeDocument;
 //  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == employeeId)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
         .AsEnumerable().FirstOrDefault();
   if (document == null)
   {
