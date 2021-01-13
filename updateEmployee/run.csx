@@ -37,11 +37,11 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
 
-  var employees = (List<Employee>) employeeDocument
+  var employees = (List<Employee>) employeeDocument;
 
   foreach (Employee obj in employees){
-    log.LogInformation(obj.Description);
-    log.LogInformation(obj.id);
+    //log.LogInformation(obj.Description);
+    log.LogInformation(obj.Id);
 }
 
 
