@@ -18,7 +18,7 @@ public class Employee
   public string mobileno { get; set; }
 }
 
-public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string employeeId )
+public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string Id )
 
 {
 
@@ -41,7 +41,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
   
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == employeeId)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == Id)
         .AsEnumerable().FirstOrDefault();
   
   if (document == null)

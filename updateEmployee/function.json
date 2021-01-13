@@ -8,7 +8,7 @@
       "methods": [
         "put"
       ],
-      "route": "records/{employeeId}"
+      "route": "records/{id}"
     },
     {
       "name": "$return",
