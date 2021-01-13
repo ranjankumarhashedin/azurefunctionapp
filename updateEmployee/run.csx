@@ -49,7 +49,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
  //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
  //var empdocument = (List<Employee>) employeeDocument;
  //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == Id)
         .AsEnumerable().FirstOrDefault();
   if (document == null)
   {
