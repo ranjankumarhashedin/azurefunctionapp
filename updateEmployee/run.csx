@@ -19,7 +19,7 @@ public class Employee
   public string mobileno { get; set; }
 }
 //public static async Task<IActionResult> Run(  HttpRequest req, IEnumerable<Employee> employeeDocument, ILogger log, string Id ){
-public static async Task<IActionResult> Run(  HttpRequest req, ILogger log, string Id ){
+public static async Task<IActionResult> Run(HttpRequest req, ILogger log, string Id ){
 string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
 string collectionString = "COLLECTIONNAME";
 string databaseString = "DBNAME";
@@ -45,11 +45,6 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   //   log.LogInformation(obj.employeeId);
 
 // SQL querying allows dynamic property access
-var query = new SqlQuerySpec(
-    "SELECT * FROM books b WHERE b.title = @title", 
-    new SqlParameterCollection(new SqlParameter[] { new SqlParameter { Name = "@title", Value = "War and Peace" }}));
-
-dynamic document = client.CreateDocumentQuery<dynamic>(collectionLink, query).AsEnumerable().FirstOrDefault();
 
  //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
  //var empdocument = (List<Employee>) employeeDocument;
