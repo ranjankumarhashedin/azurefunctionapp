@@ -16,7 +16,8 @@ public static IActionResult Run(HttpRequest req, out object employeeDocument, IL
     employeeId = data.employeeId,
     name = data.name,
     dept = data.dept,
-    mobileno = data.mobileno
+    mobileno = data.mobileno,
+    address = data.address
   };
   return (ActionResult)new OkObjectResult(employeeDocument);
 }
