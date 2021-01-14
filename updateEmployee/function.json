@@ -6,8 +6,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "methods": [
-        "get",
-        "post"
+        "put"
       ],
       "route": "records/{id}"
     },
@@ -30,7 +29,6 @@
       "databaseName": "DBNAME",
       "collectionName": "COLLECTIONNAME",
       "createIfNotExists": false,
-      //"Id" : "{id}",
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "out"
     }
