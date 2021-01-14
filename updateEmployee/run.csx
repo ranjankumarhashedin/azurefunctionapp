@@ -39,7 +39,7 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
 
-  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == Id)
+  var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == Id)
         .AsEnumerable().FirstOrDefault();
   if (document == null)
   {
