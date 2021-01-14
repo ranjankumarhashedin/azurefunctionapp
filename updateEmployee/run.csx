@@ -39,16 +39,6 @@ string accesskey = endpoint.Substring(endpoint.IndexOf("AccountKey=")+11).Remove
   var option = new FeedOptions { EnableCrossPartitionQuery = true };
   var collectionUri = UriFactory.CreateDocumentCollectionUri(databaseName, collectionName);
 
- // var employees = (List<Employee>) employeeDocument;
-
-  // foreach (Employee obj in employees){
-  //   log.LogInformation(obj.employeeId);
-
-// SQL querying allows dynamic property access
-
- //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == id).AsEnumerable().FirstOrDefault();
- //var empdocument = (List<Employee>) employeeDocument;
- //var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.Id == empdocument.id).AsEnumerable().FirstOrDefault();
   var document = client.CreateDocumentQuery(collectionUri, option).Where(t => t.employeeId == Id)
         .AsEnumerable().FirstOrDefault();
   if (document == null)
