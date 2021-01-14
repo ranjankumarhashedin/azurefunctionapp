@@ -30,7 +30,7 @@
       "databaseName": "DBNAME",
       "collectionName": "COLLECTIONNAME",
       "createIfNotExists": false,
-      "Id" : "{id}",
+      //"Id" : "{id}",
       "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
       "direction": "out"
     }
