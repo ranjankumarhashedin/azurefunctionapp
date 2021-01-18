@@ -8,7 +8,7 @@
       "methods": [
         "post"
       ],
-      "route": "records"
+      "route": "COLLECTIONNAME"
     },
     {
       "name": "$return",
