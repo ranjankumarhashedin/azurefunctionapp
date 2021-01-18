@@ -11,9 +11,9 @@ using Microsoft.Azure.Documents.Client;
 public static async Task<IActionResult> Run(  HttpRequest req ,string employeeId )
 {
 
-string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
-string collectionName = "records";
-string databaseName = "recorddb";
+string connectionString = "CONNECTIONSTRING";
+string collectionName = "COLLECTIONNAME";
+string databaseName = "DBNAME";
 
 
 string endpoint = Environment.GetEnvironmentVariable(connectionString);
