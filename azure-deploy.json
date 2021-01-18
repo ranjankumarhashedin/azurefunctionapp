@@ -2,28 +2,19 @@
 	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"siteName": {
+		"FunctionAppName": {
 			"type": "string",	
 			"defaultValue": "cf-cmp-function",
 			"metadata": {
 				"description": "The name of the function app that you wish to create."
 			}
 		},
-		"runtime": {
-			"type": "string",
-			"defaultValue": "dotnet",
-			"allowedValues": [
-				"node",
-				"dotnet",
-				"java"
-			],
+		"appServicePlanName": {
+			"defaultValue": "cmp-asp",
+			"type": "String",
 			"metadata": {
-				"description": "The language worker runtime to load in the function app."
+				"description": "Azure function app service plan, max length 44 characters, lowercase"
 			}
-		},
-		"serverfarms_name": {
-			"defaultValue": "cmp-serverfarm",
-			"type": "String"
 		},
 		"cosmosdb-accountName": {
 			"type": "string",
@@ -32,68 +23,11 @@
 				"description": "Cosmos DB account name, max length 44 characters, lowercase"
 			}
 		},
-		"cosmosdb-location": {
+		"cosmosdb-collectionName": {
 			"type": "string",
-			"defaultValue": "East US",
+			"defaultValue": "records",
 			"metadata": {
-				"description": "Location for the Cosmos DB account."
-			}
-		},
-		"cosmosdb-primaryRegion": {
-			"type": "string",
-			"defaultValue": "East US",
-			"metadata": {
-				"description": "The primary replica region for the Cosmos DB account."
-			}
-		},
-		"cosmosdb-secondaryRegion": {
-			"type": "string",
-			"defaultValue": "West US",
-			"metadata": {
-				"description": "The secondary replica region for the Cosmos DB account."
-			}
-		},
-		"defaultConsistencyLevel": {
-			"type": "string",
-			"defaultValue": "Session",
-			"allowedValues": [
-				"Eventual",
-				"ConsistentPrefix",
-				"Session",
-				"BoundedStaleness",
-				"Strong"
-			],
-			"metadata": {
-				"description": "The default consistency level of the Cosmos DB account."
-			}
-		},
-		"maxStalenessPrefix": {
-			"type": "int",
-			"minValue": 10,
-			"defaultValue": 100000,
-			"maxValue": 2147483647,
-			"metadata": {
-				"description": "Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 1000000. Multi Region: 100000 to 1000000."
-			}
-		},
-		"maxIntervalInSeconds": {
-			"type": "int",
-			"minValue": 5,
-			"defaultValue": 300,
-			"maxValue": 86400,
-			"metadata": {
-				"description": "Max lag time (minutes). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84600. Multi Region: 300 to 86400."
-			}
-		},
-		"automaticFailover": {
-			"type": "bool",
-			"defaultValue": true,
-			"allowedValues": [
-				true,
-				false
-			],
-			"metadata": {
-				"description": "Enable automatic failover for regions"
+				"description": "Cosmos DB collection name, max length 44 characters, lowercase"
 			}
 		},
 		"cosmosdb-databaseName": {
@@ -102,31 +36,16 @@
 			"metadata": {
 				"description": "The name for the database"
 			}
-		},
-		"cosmosdb-containerName": {
-			"type": "string",
-			"defaultValue": "records",
-			"metadata": {
-				"description": "The name for the container"
-			}
-		},
-		"autoscaleMaxThroughput": {
-			"type": "int",
-			"defaultValue": 4000,
-			"minValue": 4000,
-			"maxValue": 1000000,
-			"metadata": {
-				"description": "Maximum throughput for the container"
-			}
 		}
 	},
 	"variables": {
-		"storageName": "[concat('function', uniqueString(parameters('siteName')))]",
-		"contentShareName": "[toLower(parameters('siteName'))]",
-		"repoUrl": "https://github.com/mygithub334272/getcusmosdbdata",
+	//	"storageName": "[concat(uniqueString(parameters('cosmosdb-accountName')), uniqueString(parameters('FunctionAppName')))]",
+		"storageName": "[concat('storage', uniqueString(resourceGroup().id))]",
+		"contentShareName": "[toLower(parameters('FunctionAppName'))]",
+		"repoUrl": "https://github.com/ranjankumarhashedin/azurefunctionapp",
 		"branch": "master",
 		"cosmosdb-accountName": "[toLower(parameters('cosmosdb-accountName'))]",
-		"functionWorkerRuntime": "[parameters('runtime')]",
+		"functionWorkerRuntime": "dotnet",
 		"consistencyPolicy": {
 			"Eventual": {
 				"defaultConsistencyLevel": "Eventual"
@@ -139,20 +58,21 @@
 			},
 			"BoundedStaleness": {
 				"defaultConsistencyLevel": "BoundedStaleness",
-				"maxStalenessPrefix": "[parameters('maxStalenessPrefix')]",
-				"maxIntervalInSeconds": "[parameters('maxIntervalInSeconds')]"
+				"maxStalenessPrefix": 100000,
+				"maxIntervalInSeconds": 300
 			},
 			"Strong": {
 				"defaultConsistencyLevel": "Strong"
 			}
 		},
 		"locations": [{
-				"locationName": "[parameters('cosmosdb-primaryRegion')]",
+				"locationName": "[resourceGroup().location]",
 				"failoverPriority": 0,
 				"isZoneRedundant": false
-			},
+			}
+			,
 			{
-				"locationName": "[parameters('cosmosdb-secondaryRegion')]",
+				"locationName": "Central India",
 				"failoverPriority": 1,
 				"isZoneRedundant": false
 			}
@@ -160,10 +80,10 @@
 	},
 	"resources": [{
 			"apiVersion": "2016-03-01",
-			"name": "[parameters('siteName')]",
+			"name": "[parameters('FunctionAppName')]",
 			"type": "Microsoft.Web/sites",
 			"properties": {
-				"name": "[parameters('siteName')]",
+				"name": "[parameters('FunctionAppName')]",
 				"siteConfig": {
 					"appSettings": [{
 							"name": "AzureWebJobsDashboard",
@@ -193,21 +113,29 @@
 							"name": "FUNCTIONS_WORKER_RUNTIME",
 							"value": "[variables('functionWorkerRuntime')]"
 						},
-							 {
-							   "name": "[concat(parameters('cosmosdb-accountName'), '_DOCUMENTDB')]",
-							   "value": "[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosdb-accountName')), '2019-12-12').connectionStrings[1].connectionString]"
-							 }	
+						{
+							"name": "COLLECTIONNAME",
+							"value": "[parameters('cosmosdb-collectionName')]"
+						},
+						{
+							"name": "DBNAME",
+							"value": "[parameters('cosmosdb-databaseName')]"
+						},
+						{
+							"name": "[concat(parameters('cosmosdb-accountName'), '_DOCUMENTDB')]",
+							"value": "[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosdb-accountName')), '2019-12-12').connectionStrings[1].connectionString]"
+						}	
 					]
 				},
 				"clientAffinityEnabled": false,
-				"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
+				"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
 			},
 			"resources": [{
 				"apiVersion": "2015-08-01",
 				"name": "web",
 				"type": "sourcecontrols",
 				"dependsOn": [
-					"[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+					"[resourceId('Microsoft.Web/Sites', parameters('FunctionAppName'))]"
 				],
 				"properties": {
 					"RepoUrl": "[variables('repoURL')]",
@@ -217,7 +145,7 @@
 			}],
 			"dependsOn": [
 				"[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
-				"[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
+				"[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
 				"[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosdb-accountName'))]"
 			],
 			"location": "[resourceGroup().location]",
@@ -235,8 +163,8 @@
 		{
 			"type": "Microsoft.Web/serverfarms",
 			"apiVersion": "2018-02-01",
-			"name": "[parameters('serverfarms_name')]",
-			"location": "East US",
+			"name": "[parameters('appServicePlanName')]",
+			"location": "[resourceGroup().location]",
 			"sku": {
 				"name": "Y1",
 				"tier": "Dynamic",
@@ -261,12 +189,12 @@
 			"name": "[variables('cosmosdb-accountName')]",
 			"apiVersion": "2020-04-01",
 			"kind": "GlobalDocumentDB",
-			"location": "[parameters('cosmosdb-location')]",
+			"location": "[resourceGroup().location]",
 			"properties": {
-				"consistencyPolicy": "[variables('consistencyPolicy')[parameters('defaultConsistencyLevel')]]",
-				"locations": "[variables('locations')]",
+				"consistencyPolicy": "[variables('consistencyPolicy')['Session']]",
+				"locations": "[variables('locations')]",	
 				"databaseAccountOfferType": "Standard",
-				"enableAutomaticFailover": "[parameters('automaticFailover')]"
+				"enableAutomaticFailover": true
 			}
 		},
 		{
@@ -284,14 +212,14 @@
 		},
 		{
 			"type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
-			"name": "[concat(variables('cosmosdb-accountName'), '/', parameters('cosmosdb-databaseName'), '/', parameters('cosmosdb-containerName'))]",
+			"name": "[concat(variables('cosmosdb-accountName'), '/', parameters('cosmosdb-databaseName'), '/', parameters('cosmosdb-collectionName'))]",
 			"apiVersion": "2020-04-01",
 			"dependsOn": [
 				"[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', variables('cosmosdb-accountName'), parameters('cosmosdb-databaseName'))]"
 			],
 			"properties": {
 				"resource": {
-					"id": "[parameters('cosmosdb-containerName')]",
+					"id": "[parameters('cosmosdb-collectionName')]",
 					"partitionKey": {
 						"paths": [
 							"/employeeId"
@@ -338,28 +266,28 @@
 				},
 				"options": {
 					"autoscaleSettings": {
-						"maxThroughput": "[parameters('autoscaleMaxThroughput')]"
+						"maxThroughput": 4000
 					}
 				}
 			}
 		}
 	],
 	"outputs": {
-		"uriFor-POST": {
+		"POST": {
 			"type": "string",
-			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('siteName'))).hostNames[0],'/api/',parameters('cosmosdb-containerName'))]"
+			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'))]"
 		},
-		"uriFor-GET": {
+		"GET": {
 			"type": "string",
-			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('siteName'))).hostNames[0],'/api/',parameters('cosmosdb-containerName'),'/{id}')]"
+			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'),'/{id}')]"
 		},
-		"uriFor-UPDATE": {
+		"UPDATE": {
 			"type": "string",
-			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('siteName'))).hostNames[0],'/api/',parameters('cosmosdb-containerName'),'/{id}')]"
+			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'),'/{id}')]"
 		},
-		"uriFor-DELETE": {
+		"DELETE": {
 			"type": "string",
-			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('siteName'))).hostNames[0],'/api/',parameters('cosmosdb-containerName'),'/{id}/{employeeId}')]"
+			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'),'/{id}/{employeeId}')]"
 		}
 	}
 }
