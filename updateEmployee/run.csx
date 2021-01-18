@@ -20,7 +20,7 @@ public class Employee
 }
 //public static async Task<IActionResult> Run(  HttpRequest req, IEnumerable<Employee> employeeDocument, ILogger log, string Id ){
 public static async Task<IActionResult> Run(HttpRequest req, ILogger log, int Id ){
-string connectionString = "cf-cmp-cosmosdb_DOCUMENTDB";
+string connectionString = "CONNECTIONSTRING";
 string collectionString = "COLLECTIONNAME";
 string databaseString = "DBNAME";
 
