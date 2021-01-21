@@ -8,8 +8,7 @@ using Newtonsoft.Json;
 
 public class Employee
 {
- public string ID { get; set; }
-  public string employeeId { get; set; }
+  public string id { get; set; }
   public string name { get; set; }
   public string dept { get; set; }
   public string mobileno { get; set; } 

@@ -8,7 +8,7 @@
       "methods": [
         "put"
       ],
-      "route": "COLLECTIONNAME/{id}"
+      "route": "COLLECTIONNAME/{Id}"
     },
     {
       "name": "$return",
@@ -20,7 +20,7 @@
       "name": "employeeDocument",
       "databaseName": "DBNAME",
       "collectionName": "COLLECTIONNAME",
-      "connectionStringSetting": "cf-cmp-cosmosdb_DOCUMENTDB",
+      "connectionStringSetting": "CONNECTIONSTRING",
       "direction": "in"
     },
     {

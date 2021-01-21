@@ -122,7 +122,7 @@
 							"value": "[parameters('cosmosdb-databaseName')]"
 						},
 						{
-							"name": "[concat(parameters('cosmosdb-accountName'), '_DOCUMENTDB')]",
+							"name": "CONNECTIONSTRING",
 							"value": "[listConnectionStrings(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('cosmosdb-accountName')), '2019-12-12').connectionStrings[1].connectionString]"
 						}	
 					]
@@ -222,7 +222,7 @@
 					"id": "[parameters('cosmosdb-collectionName')]",
 					"partitionKey": {
 						"paths": [
-							"/employeeId"
+							"/id"
 						],
 						"kind": "Hash"
 					},
@@ -287,7 +287,7 @@
 		},
 		"DELETE": {
 			"type": "string",
-			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'),'/{id}/{employeeId}')]"
+			"value": "[concat('https://',reference(resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))).hostNames[0],'/api/',parameters('cosmosdb-collectionName'),'/{id}')]"
 		}
 	}
 }

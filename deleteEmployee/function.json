@@ -8,7 +8,7 @@
       "methods": [
         "delete"
       ],
-      "route": "records/{employeeId}"
+      "route": "COLLECTIONNAME/{id}"
     },
     {
       "name": "$return",

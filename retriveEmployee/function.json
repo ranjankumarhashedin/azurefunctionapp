@@ -8,7 +8,7 @@
       "methods": [
         "get"
       ],
-      "route": "records/{id}"
+      "route": "%COLLECTIONNAME%/{id}"
     },
     {
       "name": "$return",
@@ -22,7 +22,7 @@
       "collectionName": "COLLECTIONNAME",
       "connectionStringSetting": "CONNECTIONSTRING",
       "direction": "in",
-      "sqlQuery": "select  * from c where c.employeeId={id}"
+      "sqlQuery": "select  * from c where c.id={id}"
     }
   ],
   "disabled": false
