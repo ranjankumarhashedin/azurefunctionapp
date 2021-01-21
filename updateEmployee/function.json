@@ -8,7 +8,7 @@
       "methods": [
         "put"
       ],
-      "route": "COLLECTIONNAME/{Id}"
+      "route": "records/{Id}"
     },
     {
       "name": "$return",
