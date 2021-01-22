@@ -18,16 +18,16 @@
     {
       "type": "cosmosDB",
       "name": "employeeDocument",
-      "databaseName": "DBNAME",
-      "collectionName": "COLLECTIONNAME",
+      "databaseName": "employeedb",
+      "collectionName": "records",
       "connectionStringSetting": "CONNECTIONSTRING",
       "direction": "in"
     },
     {
       "type": "cosmosDB",
       "name": "outputDocument",
-      "databaseName": "DBNAME",
-      "collectionName": "COLLECTIONNAME",
+      "databaseName": "employeedb",
+      "collectionName": "records",
       "createIfNotExists": false,
       "connectionStringSetting": "CONNECTIONSTRING",
       "direction": "out"
