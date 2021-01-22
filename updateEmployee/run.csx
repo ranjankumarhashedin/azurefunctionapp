@@ -34,12 +34,7 @@ public class Employee
 public static async Task<IActionResult> Run(  HttpRequest req , ILogger log, string Id )
 {      
 string connectionString = "CONNECTIONSTRING";
-string collectionString = "COLLECTIONNAME";
-string databaseString = "DBNAME";
-
 string endpoint = Environment.GetEnvironmentVariable(connectionString);
-string collectionName = Environment.GetEnvironmentVariable(collectionString);
-string databaseName = Environment.GetEnvironmentVariable(databaseString);
 string collectionName = "records";
 string databaseName = "employeedb";
 
