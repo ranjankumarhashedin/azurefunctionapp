@@ -23,8 +23,8 @@ public static async Task<IActionResult> Run(  HttpRequest req, string Id )
 {
 
 string connectionString = "CONNECTIONSTRING";
-string collectionName = "COLLECTIONNAME";
-string databaseName = "DBNAME";
+string collectionName = "records";
+string databaseName = "employeedb";
 
 
 string endpoint = Environment.GetEnvironmentVariable(connectionString);
