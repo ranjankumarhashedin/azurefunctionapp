@@ -18,8 +18,8 @@
     {
       "type": "cosmosDB",
       "name": "employeeDocument",
-      "databaseName": "DBNAME",
-      "collectionName": "COLLECTIONNAME",
+      "databaseName": "employeedb",
+      "collectionName": "records",
       "connectionStringSetting": "CONNECTIONSTRING",
       "direction": "in",
       "sqlQuery": "select  * from c where c.id={id}"
