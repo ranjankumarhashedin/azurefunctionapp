@@ -40,8 +40,8 @@ string databaseString = "DBNAME";
 string endpoint = Environment.GetEnvironmentVariable(connectionString);
 string collectionName = Environment.GetEnvironmentVariable(collectionString);
 string databaseName = Environment.GetEnvironmentVariable(databaseString);
-//string collectionName = "container1";
-//string databaseName = "employee";
+string collectionName = "records";
+string databaseName = "employeedb";
 
 log.LogInformation(endpoint);
 string uri = endpoint.Substring(endpoint.IndexOf("https://"),endpoint.IndexOf("443/") - endpoint.IndexOf("https://") + 4);  
